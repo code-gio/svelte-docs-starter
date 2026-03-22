@@ -2,12 +2,12 @@ import { docsConfig } from './config.js';
 import { getDocsByDirectory, getAllDocs } from './content.js';
 import type { NavItem } from './types.js';
 
-export function generateNavigation(): NavItem[] {
+export function generateNavigation(locale?: string): NavItem[] {
 	const nav: NavItem[] = [];
 
 	for (const section of docsConfig.sidebar) {
 		if (section.autogenerate) {
-			const docs = getDocsByDirectory(section.autogenerate.directory);
+			const docs = getDocsByDirectory(section.autogenerate.directory, locale);
 			const items: NavItem[] = docs.map((doc) => ({
 				title: doc.meta.sidebar?.label ?? doc.meta.title,
 				href: doc.href,
@@ -36,21 +36,26 @@ export function generateNavigation(): NavItem[] {
 	return nav;
 }
 
-export function getNavigation(): NavItem[] {
-	return generateNavigation();
+export function getNavigation(locale?: string): NavItem[] {
+	return generateNavigation(locale);
 }
 
-export function getPrevNext(currentSlug: string): { prev?: NavItem; next?: NavItem } {
-	const allDocs = getAllDocs();
+export function getPrevNext(
+	currentSlug: string,
+	locale?: string
+): { prev?: NavItem; next?: NavItem } {
+	const allDocs = getAllDocs(locale);
 	const index = allDocs.findIndex((doc) => doc.slug === currentSlug);
 	if (index === -1) return {};
 
 	return {
-		prev: index > 0
-			? { title: allDocs[index - 1].meta.title, href: allDocs[index - 1].href }
-			: undefined,
-		next: index < allDocs.length - 1
-			? { title: allDocs[index + 1].meta.title, href: allDocs[index + 1].href }
-			: undefined
+		prev:
+			index > 0
+				? { title: allDocs[index - 1].meta.title, href: allDocs[index - 1].href }
+				: undefined,
+		next:
+			index < allDocs.length - 1
+				? { title: allDocs[index + 1].meta.title, href: allDocs[index + 1].href }
+				: undefined
 	};
 }

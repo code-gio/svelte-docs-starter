@@ -5,23 +5,23 @@
 @custom-variant dark (&:is(.dark *));
 @plugin '@tailwindcss/typography';
 
-/* Shiki dual theme support */
-html:not(.dark) .shiki,
-html:not(.dark) .shiki span {
-	color: var(--shiki-light) !important;
-	background-color: var(--shiki-light-bg) !important;
-}
-
+/* Shiki dual theme support
+   Light mode: use the default inline styles (Shiki outputs light theme as inline color)
+   Dark mode: override with --shiki-dark CSS variables */
 html.dark .shiki,
 html.dark .shiki span {
 	color: var(--shiki-dark) !important;
 	background-color: var(--shiki-dark-bg) !important;
 }
 
+html.dark .shiki {
+	border-color: #333;
+}
+
 .shiki {
 	padding: 1rem;
 	border-radius: var(--radius);
-	border: 1px solid var(--border);
+	border: 1px solid #e5e5e5;
 	overflow-x: auto;
 	font-size: 0.875rem;
 	line-height: 1.7;

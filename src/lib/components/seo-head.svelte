@@ -14,18 +14,36 @@
 	let fullTitle = $derived(title === siteTitle ? title : `${title} — ${siteTitle}`);
 	let url = $derived(docsConfig.site.url ? `${docsConfig.site.url}${page.url.pathname}` : page.url.pathname);
 
-	let jsonLd = $derived(JSON.stringify({
-		'@context': 'https://schema.org',
-		'@type': 'TechArticle',
-		headline: title,
-		description: description ?? '',
-		url,
-		isPartOf: {
-			'@type': 'WebSite',
-			name: siteTitle,
-			url: docsConfig.site.url ?? ''
+	let breadcrumbItems = $derived.by(() => {
+		const parts = page.url.pathname.split('/').filter(Boolean);
+		const baseUrl = docsConfig.site.url ?? '';
+		return parts.map((part, i) => ({
+			'@type': 'ListItem' as const,
+			position: i + 1,
+			name: part.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+			item: `${baseUrl}/${parts.slice(0, i + 1).join('/')}`
+		}));
+	});
+
+	let jsonLd = $derived(JSON.stringify([
+		{
+			'@context': 'https://schema.org',
+			'@type': 'TechArticle',
+			headline: title,
+			description: description ?? '',
+			url,
+			isPartOf: {
+				'@type': 'WebSite',
+				name: siteTitle,
+				url: docsConfig.site.url ?? ''
+			}
+		},
+		{
+			'@context': 'https://schema.org',
+			'@type': 'BreadcrumbList',
+			itemListElement: breadcrumbItems
 		}
-	}));
+	]));
 </script>
 
 <svelte:head>

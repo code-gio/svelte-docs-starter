@@ -45,10 +45,22 @@ export interface SiteConfig {
 	};
 }
 
+export interface VersionConfig {
+	current: string;
+	versions: { label: string; href: string }[];
+}
+
+export interface LocaleConfig {
+	defaultLocale: string;
+	locales: { code: string; label: string; flag?: string }[];
+}
+
 export interface DocsConfig {
 	site: SiteConfig;
 	sidebar: SidebarSection[];
 	toc?: { minDepth?: number; maxDepth?: number };
+	versions?: VersionConfig;
+	i18n?: LocaleConfig;
 }
 
 export interface SidebarSection {

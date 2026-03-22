@@ -25,5 +25,20 @@ export const docsConfig: DocsConfig = {
 	toc: {
 		minDepth: 2,
 		maxDepth: 3
+	},
+	// Uncomment to enable version selector in the sidebar header:
+	// versions: {
+	// 	current: 'v1.0.0',
+	// 	versions: [
+	// 		{ label: 'v1.0.0 (latest)', href: '/docs' },
+	// 		{ label: 'v0.x', href: 'https://v0.example.com/docs' }
+	// 	]
+	// },
+	i18n: {
+		defaultLocale: 'en',
+		locales: [
+			{ code: 'en', label: 'English', flag: '🇺🇸' },
+			{ code: 'es', label: 'Español', flag: '🇪🇸' }
+		]
 	}
 };

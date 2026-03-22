@@ -1,5 +1,5 @@
 export { docsConfig } from './config.js';
-export { getAllDocs, getDoc, getDocsByDirectory } from './content.js';
+export { getAllDocs, getDoc, getDocsByDirectory, getRawContent } from './content.js';
 export { getNavigation, getPrevNext } from './navigation.js';
 export type {
 	DocMeta,
@@ -9,5 +9,7 @@ export type {
 	SiteConfig,
 	DocsConfig,
 	SidebarSection,
-	TableOfContentsItem
+	TableOfContentsItem,
+	VersionConfig,
+	LocaleConfig
 } from './types.js';

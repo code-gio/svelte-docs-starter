@@ -2,6 +2,7 @@
 	import AutoBreadcrumb from "$lib/components/nav/auto-breadcrumb.svelte";
 	import SocialLinks, { type SocialLink } from "$lib/components/nav/social-links.svelte";
 	import DarkModeSwitcher from "$lib/components/theme/dark-mode-switcher.svelte";
+	import LanguageSwitcher from "$lib/components/language-switcher.svelte";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 
 	let { socialLinks = [] }: { socialLinks?: SocialLink[] } = $props();
@@ -14,6 +15,7 @@
 	</div>
 	<div class="flex items-center gap-1">
 		<SocialLinks links={socialLinks} />
+		<LanguageSwitcher />
 		<DarkModeSwitcher />
 	</div>
 </header>

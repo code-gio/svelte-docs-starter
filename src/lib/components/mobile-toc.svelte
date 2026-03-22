@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toc } from '$lib/docs/toc.svelte.js';
+	import { toc } from '$lib/docs/toc.svelte';
 	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
 	import ListIcon from '@lucide/svelte/icons/list';
 

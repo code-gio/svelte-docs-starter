@@ -1,21 +1,30 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
 	import type { DocMeta } from '$lib/docs/types.js';
-	import { toc } from '$lib/docs/toc.svelte.js';
+	import { toc } from '$lib/docs/toc.svelte';
 	import { docsConfig } from '$lib/docs/config.js';
 	import MobileToc from '$lib/components/mobile-toc.svelte';
+	import BackToTop from '$lib/components/nav/back-to-top.svelte';
+	import CopyUrl from '$lib/components/nav/copy-url.svelte';
+	import PageFeedback from '$lib/components/nav/page-feedback.svelte';
 	import PencilIcon from '@lucide/svelte/icons/pencil';
 	import CalendarIcon from '@lucide/svelte/icons/calendar';
+	import ClockIcon from '@lucide/svelte/icons/clock';
+	import { calculateReadingTime } from '$lib/docs/reading-time.js';
 
 	let {
 		meta,
 		component: Content,
-		slug = ''
+		slug = '',
+		rawContent = ''
 	}: {
 		meta: DocMeta;
 		component: Component;
 		slug?: string;
+		rawContent?: string;
 	} = $props();
+
+	let readingTime = $derived(rawContent ? calculateReadingTime(rawContent) : '');
 
 	let contentEl: HTMLDivElement | undefined = $state();
 
@@ -69,6 +78,26 @@
 			pre.appendChild(btn);
 		}
 
+		// Add click-to-zoom on images
+		const images = container.querySelectorAll<HTMLImageElement>('img');
+		for (const img of images) {
+			if (img.dataset.zoomEnabled) continue;
+			img.dataset.zoomEnabled = 'true';
+			img.classList.add('cursor-zoom-in', 'transition-transform');
+			img.addEventListener('click', () => {
+				const overlay = document.createElement('div');
+				overlay.className = 'fixed inset-0 z-[100] flex items-center justify-center bg-black/80 cursor-zoom-out p-8';
+				const clone = img.cloneNode() as HTMLImageElement;
+				clone.className = 'max-h-full max-w-full rounded-lg object-contain';
+				overlay.appendChild(clone);
+				overlay.addEventListener('click', () => overlay.remove());
+				document.addEventListener('keydown', function handler(e) {
+					if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', handler); }
+				});
+				document.body.appendChild(overlay);
+			});
+		}
+
 		toc.extractHeadings(container);
 	}
 
@@ -92,6 +121,12 @@
 		{#if meta.description}
 			<p class="text-muted-foreground mt-2 text-lg">{meta.description}</p>
 		{/if}
+		{#if readingTime}
+			<div class="text-muted-foreground mt-3 flex items-center gap-1.5 text-sm">
+				<ClockIcon class="size-3.5" />
+				<span>{readingTime}</span>
+			</div>
+		{/if}
 	</header>
 
 	<MobileToc />
@@ -100,9 +135,17 @@
 		<Content></Content>
 	</div>
 
-	{#if editUrl || meta.lastUpdated}
-		<footer class="mt-12 border-t pt-6">
-			<div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+	<footer class="mt-12 border-t pt-6">
+		{#if meta.lastUpdated}
+			<div class="mb-4">
+				<span class="text-muted-foreground inline-flex items-center gap-1.5 text-sm">
+					<CalendarIcon class="size-3.5" />
+					Last updated: {new Date(meta.lastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+				</span>
+			</div>
+		{/if}
+		<div class="flex items-center justify-between">
+			<div class="flex items-center gap-x-4">
 				{#if editUrl}
 					<a
 						href={editUrl}
@@ -114,13 +157,12 @@
 						Edit this page on GitHub
 					</a>
 				{/if}
-				{#if meta.lastUpdated}
-					<span class="text-muted-foreground inline-flex items-center gap-1.5 text-sm">
-						<CalendarIcon class="size-3.5" />
-						Last updated: {new Date(meta.lastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-					</span>
-				{/if}
 			</div>
-		</footer>
-	{/if}
+			<div class="flex items-center gap-1">
+				<PageFeedback />
+				<CopyUrl />
+				<BackToTop />
+			</div>
+		</div>
+	</footer>
 </article>

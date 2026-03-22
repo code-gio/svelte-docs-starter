@@ -2,7 +2,7 @@
 	import SearchCommand from "$lib/components/search/search-command.svelte";
 	import * as Collapsible from "$lib/components/ui/collapsible/index.js";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-	import { toc } from "$lib/docs/toc.svelte.js";
+	import { toc } from "$lib/docs/toc.svelte";
 	import type { TableOfContentsItem } from "$lib/docs/types.js";
 	import MinusIcon from "@lucide/svelte/icons/minus";
 	import PlusIcon from "@lucide/svelte/icons/plus";

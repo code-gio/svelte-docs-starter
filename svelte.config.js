@@ -60,7 +60,8 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		prerender: {
-			handleHttpError: 'warn'
+			handleHttpError: 'warn',
+			handleUnseenRoutes: 'warn'
 		}
 	},
 	vitePlugin: {

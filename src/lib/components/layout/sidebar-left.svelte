@@ -4,8 +4,12 @@
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import { docsConfig } from "$lib/docs/config.js";
 	import type { NavItem } from "$lib/docs/types.js";
+	import { goto } from "$app/navigation";
+	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
 	import GalleryVerticalEndIcon from "@lucide/svelte/icons/gallery-vertical-end";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
+	import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
+	import CheckIcon from "@lucide/svelte/icons/check";
 	import type { ComponentProps } from "svelte";
 
 	let {
@@ -28,21 +32,62 @@
 	<Sidebar.Header>
 		<Sidebar.Menu>
 			<Sidebar.MenuItem>
-				<Sidebar.MenuButton size="lg">
-					{#snippet child({ props })}
-						<a href="/docs" {...props}>
-							<div
-								class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
-							>
-								<GalleryVerticalEndIcon class="size-4" />
-							</div>
-							<div class="flex flex-col gap-0.5 leading-none">
-								<span class="font-medium">{docsConfig.site.title}</span>
-								<span class="">v1.0.0</span>
-							</div>
-						</a>
-					{/snippet}
-				</Sidebar.MenuButton>
+				{#if docsConfig.versions}
+					<DropdownMenu.Root>
+						<DropdownMenu.Trigger>
+							{#snippet child({ props })}
+								<Sidebar.MenuButton
+									size="lg"
+									class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+									{...props}
+								>
+									<div
+										class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
+									>
+										<GalleryVerticalEndIcon class="size-4" />
+									</div>
+									<div class="flex flex-col gap-0.5 leading-none">
+										<span class="font-semibold">{docsConfig.site.title}</span>
+										<span class="">{docsConfig.versions?.current}</span>
+									</div>
+									<ChevronsUpDownIcon class="ms-auto" />
+								</Sidebar.MenuButton>
+							{/snippet}
+						</DropdownMenu.Trigger>
+						<DropdownMenu.Content class="w-(--bits-dropdown-menu-anchor-width)" align="start">
+							{#each docsConfig.versions.versions as version (version.label)}
+								<DropdownMenu.Item onSelect={() => {
+									if (version.href.startsWith('http')) {
+										window.open(version.href, '_blank');
+									} else {
+										goto(version.href);
+									}
+								}}>
+									{version.label}
+									{#if version.label.includes(docsConfig.versions?.current ?? '')}
+										<CheckIcon class="ms-auto" />
+									{/if}
+								</DropdownMenu.Item>
+							{/each}
+						</DropdownMenu.Content>
+					</DropdownMenu.Root>
+				{:else}
+					<Sidebar.MenuButton size="lg">
+						{#snippet child({ props })}
+							<a href="/docs" {...props}>
+								<div
+									class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
+								>
+									<GalleryVerticalEndIcon class="size-4" />
+								</div>
+								<div class="flex flex-col gap-0.5 leading-none">
+									<span class="font-medium">{docsConfig.site.title}</span>
+									<span class="">v1.0.0</span>
+								</div>
+							</a>
+						{/snippet}
+					</Sidebar.MenuButton>
+				{/if}
 			</Sidebar.MenuItem>
 		</Sidebar.Menu>
 	</Sidebar.Header>

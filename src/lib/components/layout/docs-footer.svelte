@@ -5,7 +5,16 @@
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 
 	let { prev, next }: { prev?: NavItem; next?: NavItem } = $props();
+
+	let scrollProgress = $state(0);
+
+	function updateProgress() {
+		const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+		scrollProgress = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+	}
 </script>
+
+<svelte:window onscroll={updateProgress} />
 
 <footer class="bg-background sticky bottom-0 z-40">
 	<div class="flex h-12 items-center justify-between px-4">
@@ -37,4 +46,11 @@
 			{/if}
 		</div>
 	</div>
+	<div class="bg-muted h-1 w-full overflow-hidden">
+		<div
+			class="bg-primary h-full transition-[width] duration-150"
+			style:width="{scrollProgress}%"
+		></div>
+	</div>
+	<div class="h-2"></div>
 </footer>

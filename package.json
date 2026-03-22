@@ -1,7 +1,29 @@
 {
 	"name": "svelte-docs-starter",
-	"private": true,
-	"version": "0.0.1",
+	"version": "1.0.0",
+	"description": "A modern, full-featured documentation starter built with SvelteKit, Tailwind CSS v4, shadcn-svelte, and MDSvex.",
+	"author": "code-gio",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/code-gio/svelte-docs-starter"
+	},
+	"homepage": "https://github.com/code-gio/svelte-docs-starter",
+	"bugs": {
+		"url": "https://github.com/code-gio/svelte-docs-starter/issues"
+	},
+	"keywords": [
+		"svelte",
+		"sveltekit",
+		"documentation",
+		"docs",
+		"starter",
+		"template",
+		"tailwindcss",
+		"shadcn-svelte",
+		"mdsvex",
+		"markdown"
+	],
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -12,7 +34,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
-		"lint": "eslint . && prettier --check ."
+		"lint": "eslint . && prettier --check .",
+		"clean": "node scripts/clean.js"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",

@@ -1,4 +1,4 @@
-import { getDoc, getPrevNext } from '$lib/docs/index.js';
+import { getDoc, getPrevNext, getRawContent } from '$lib/docs/index.js';
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types.js';
 
@@ -12,6 +12,7 @@ export const load: PageLoad = ({ params }) => {
 		meta: doc.meta,
 		slug: params.slug,
 		prev,
-		next
+		next,
+		rawContent: getRawContent(params.slug)
 	};
 };
