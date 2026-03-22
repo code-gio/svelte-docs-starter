@@ -1,0 +1,9 @@
+# allow crawling everything by default
+User-agent: *
+Disallow:
+Sitemap: https://svelte-docs-starter.pages.dev/sitemap.xml
+
+# LLM-friendly content
+# See https://llmstxt.org for the specification
+# /llms.txt - summary with links to all doc pages
+# /llms-full.txt - full documentation content
