@@ -14,7 +14,9 @@
 		<AutoBreadcrumb />
 	</div>
 	<div class="flex items-center gap-1">
-		<SocialLinks links={socialLinks} />
+		<div class="hidden items-center md:flex">
+			<SocialLinks links={socialLinks} />
+		</div>
 		<LanguageSwitcher />
 		<DarkModeSwitcher />
 	</div>

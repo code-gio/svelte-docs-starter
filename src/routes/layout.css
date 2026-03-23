@@ -195,6 +195,13 @@ html.dark .code-block-title {
 	}
 }
 
+/* Prevent table overflow on mobile */
+.prose :where(table) {
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
 @custom-variant data-open {
 	&:where([data-state="open"]), &:where([data-open]:not([data-open="false"])) {
 		@slot;

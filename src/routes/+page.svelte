@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Button } from "$lib/components/ui/button/index.js";
 	import DarkModeSwitcher from "$lib/components/theme/dark-mode-switcher.svelte";
-	import SearchCommand from "$lib/components/search/search-command.svelte";
 	import ArrowRightIcon from "@lucide/svelte/icons/arrow-right";
 	import BookOpenIcon from "@lucide/svelte/icons/book-open";
 	import ZapIcon from "@lucide/svelte/icons/zap";
@@ -166,7 +165,6 @@
 			<a href="/docs" class="text-muted-foreground hover:text-foreground text-sm">Get Started</a>
 		</div>
 		<div class="flex items-center gap-2">
-			<SearchCommand />
 			<DarkModeSwitcher />
 			<Button variant="ghost" size="icon" href="https://github.com/code-gio/svelte-docs-starter" target="_blank" aria-label="GitHub">
 				<GithubIcon class="size-4" />
@@ -178,7 +176,7 @@
 <!-- Hero Section -->
 <section class="relative overflow-hidden">
 	<div class="from-primary/5 via-background to-background absolute inset-0 bg-linear-to-b"></div>
-	<div class="from-primary/10 to-primary/0 absolute left-1/2 top-0 size-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-b blur-3xl"></div>
+	<div class="from-primary/10 to-primary/0 absolute left-1/2 top-0 hidden size-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-b blur-3xl sm:block"></div>
 	<div class="relative mx-auto max-w-4xl px-4 py-24 text-center sm:px-6 sm:py-32 lg:py-40">
 		<div class="bg-muted text-muted-foreground mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm">
 			<ZapIcon class="size-3.5" />
@@ -243,12 +241,12 @@
 		</div>
 		<div class="grid gap-8 sm:grid-cols-3">
 			{#each steps as step}
-				<div class="bg-background relative rounded-xl border p-8">
+				<div class="bg-background relative min-w-0 overflow-hidden rounded-xl border p-8">
 					<span class="text-primary/20 absolute right-6 top-4 text-5xl font-bold">{step.step}</span>
 					<h3 class="text-foreground mb-3 text-xl font-semibold">{step.title}</h3>
 					<p class="text-muted-foreground mb-4 text-sm leading-relaxed">{step.description}</p>
 					{#if step.code}
-						<pre class="bg-muted rounded-lg p-3 text-xs"><code>{step.code}</code></pre>
+						<pre class="bg-muted overflow-x-auto rounded-lg p-3 text-xs"><code>{step.code}</code></pre>
 					{/if}
 				</div>
 			{/each}
@@ -294,7 +292,7 @@
 <!-- CTA Section -->
 <section class="border-t">
 	<div class="bg-primary/5 relative overflow-hidden py-20 sm:py-28">
-		<div class="from-primary/10 to-primary/0 absolute right-0 top-0 size-[600px] -translate-y-1/3 translate-x-1/3 rounded-full bg-linear-to-b blur-3xl"></div>
+		<div class="from-primary/10 to-primary/0 absolute right-0 top-0 hidden size-[600px] -translate-y-1/3 translate-x-1/3 rounded-full bg-linear-to-b blur-3xl sm:block"></div>
 		<div class="relative mx-auto max-w-3xl px-4 text-center sm:px-6">
 			<h2 class="text-foreground mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
 				Ready to build your docs?

@@ -10,13 +10,16 @@
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
 	import CheckIcon from "@lucide/svelte/icons/check";
+	import SocialLinks, { type SocialLink } from "$lib/components/nav/social-links.svelte";
+	import SearchCommand from "$lib/components/search/search-command.svelte";
 	import type { ComponentProps } from "svelte";
 
 	let {
 		navigation = [],
+		socialLinks = [],
 		ref = $bindable(null),
 		...restProps
-	}: ComponentProps<typeof Sidebar.Root> & { navigation?: NavItem[] } = $props();
+	}: ComponentProps<typeof Sidebar.Root> & { navigation?: NavItem[]; socialLinks?: SocialLink[] } = $props();
 
 	function isActive(href: string | undefined): boolean {
 		if (!href) return false;
@@ -134,5 +137,11 @@
 			</Sidebar.Menu>
 		</Sidebar.Group>
 	</Sidebar.Content>
+	<Sidebar.Footer class="mt-auto border-t p-3">
+		<SearchCommand />
+		<div class="flex items-center">
+			<SocialLinks links={socialLinks} />
+		</div>
+	</Sidebar.Footer>
 	<Sidebar.Rail />
 </Sidebar.Root>

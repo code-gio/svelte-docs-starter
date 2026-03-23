@@ -13,7 +13,13 @@
 	Skip to content
 </a>
 <Sidebar.Provider>
-	<SidebarLeft navigation={data.navigation} />
+	<SidebarLeft
+		navigation={data.navigation}
+		socialLinks={[
+			{ platform: "github", url: "https://github.com/code-gio/svelte-docs-starter" },
+			{ platform: "twitter", url: "https://twitter.com" },
+		]}
+	/>
 	<Sidebar.Inset>
 		<Header
 			socialLinks={[
