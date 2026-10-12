@@ -17,7 +17,7 @@ Make sure you have the following installed:
 Clone the template and install dependencies:
 
 ```bash
-npx degit codegio/svelte-docs-starter my-docs
+npx degit code-gio/svelte-docs-starter my-docs
 cd my-docs
 npm install
 ```
